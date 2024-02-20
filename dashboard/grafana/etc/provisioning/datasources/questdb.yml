@@ -1,0 +1,18 @@
+apiVersion: 1
+
+datasources:
+  - name: Timescaledb
+    type: postgres
+    url: timescaledb:5432
+    database: postgres
+    isDefault: true
+    user: postgres
+    secureJsonData:
+      password: password
+    jsonData:
+      sslmode: ${QDB_SSL_PG_MODE} # disable/require/verify-ca/verify-full
+      maxOpenConns: 0         # Grafana v5.4+
+      maxIdleConns: 2         # Grafana v5.4+
+      connMaxLifetime: 14400  # Grafana v5.4+
+      postgresVersion: 150 # 903=9.3, 904=9.4, 905=9.5, 906=9.6, 1000=10
+      timescaledb: true

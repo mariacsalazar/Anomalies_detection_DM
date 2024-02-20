@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    environment:
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+  grafana:
+    image: grafana/grafana-oss
+    volumes:
+      - ./dashboard/grafana/lib:/var/lib/grafana/
+      - ./dashboard/grafana/etc:/etc/grafana/
+    user: ":"
+    ports:
+      - 3000:3000
+    environment:
+      - QDB_CLIENT_PG_HOST=${QDB_CLIENT_PG_HOST:-questdb}
+      - QDB_CLIENT_PG_PORT=${QDB_CLIENT_PG_PORT:-8812}
+      - QDB_CLIENT_PG_USER=${QDB_CLIENT_PG_USER:-admin}
+      - QDB_CLIENT_PG_PASSWORD=${QDB_CLIENT_PG_PASSWORD:-quest}
+      - QDB_SSL_PG_MODE=${QDB_SSL_PG_MODE:-disable}
